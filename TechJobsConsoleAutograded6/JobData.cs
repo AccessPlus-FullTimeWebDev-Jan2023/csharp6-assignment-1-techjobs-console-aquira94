@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 
 namespace TechJobsConsoleAutograded6
@@ -42,13 +43,35 @@ namespace TechJobsConsoleAutograded6
          */
 
         //TODO: Complete the FindByValue method
+       
         public static List<Dictionary<string, string>> FindByValue(string value)
         {
             // load data, if not already loaded
             LoadData();
-
-            return null;
+        //loops through all jobs in the csv
+        List<Dictionary<string, string>> searchResults = new List<Dictionary<string, string>>();
+        //loops through all each job in AllJobs
+        foreach (Dictionary<string, string> row in AllJobs)
+            {
+          //loops through columns using keys
+                foreach (string column in row.Keys)
+                {
+                    string columnValue = row[column];
+                    //checks whether the value of the current column contains what was searched if so, adds the job to the searchResults
+                    //if (columnValue.Contains(value))
+                    if (columnValue.ToLower().Contains(value.ToLower()))
+                        {
+                        searchResults.Add(row);
+                        //stops checking other columns when search term found
+                        break; 
+                    }
+                }
+            }
+            
+            return searchResults;
         }
+       
+      
 
         /**
          * Returns results of search the jobs data by key/value, using
@@ -70,7 +93,8 @@ namespace TechJobsConsoleAutograded6
 
 
                 //TODO: Make search case-insensitive
-                if (aValue.Contains(value))
+                //if (aValue.Contains(value))
+                if (aValue.ToLower().Contains(value.ToLower()))
                 {
                     jobs.Add(row);
                 }
